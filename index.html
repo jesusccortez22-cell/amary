@@ -91,11 +91,13 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .color-swatch:hover{transform:scale(1.15)}
 .color-swatch.active{border-color:var(--ink);transform:scale(1.1)}
 .color-swatch[title]:hover::after{content:attr(title);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:.58rem;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10}
-.colors-hint{font-size:.62rem;color:var(--muted);font-style:italic;margin-bottom:.5rem;line-height:1.45;font-weight:300}
-.color-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.45rem}
-.color-chip{border:1.5px solid var(--line);background:#fff;padding:.28rem .6rem;border-radius:20px;cursor:pointer;font-size:.64rem;color:var(--muted);display:inline-flex;align-items:center;gap:.35rem;transition:all .2s;font-family:'Jost',sans-serif}
-.color-chip .chip-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.1);flex-shrink:0}
-.color-chip.selected{border-color:#4a2604;background:var(--warm);color:var(--ink);font-weight:500}
+.colors-hint{display:none}
+.color-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.5rem}
+.color-chip{width:24px;height:24px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;padding:0;background:none;transition:transform .15s,border-color .2s;position:relative;flex-shrink:0}
+.color-chip .chip-dot{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.12);display:block;transition:transform .15s}
+.color-chip:hover{transform:scale(1.18)}
+.color-chip.selected{border-color:#4a2604;transform:scale(1.1)}
+.color-selected-label{font-size:.68rem;color:#4a2604;font-weight:600;margin-bottom:.4rem;min-height:.9rem;letter-spacing:.04em}
 .color-custom{width:100%;padding:.5rem .75rem;font-size:.72rem;margin-top:.1rem}
 
 /* VARIANTES TELA */
@@ -375,7 +377,6 @@ const COLORES_PEDIDO = [
   {nombre:"Verde",hex:"#5a7a5a",codigo:"VER"},
   {nombre:"Mostaza",hex:"#c9a227",codigo:"MOS"},
   {nombre:"Café",hex:"#6b4423",codigo:"CAF"},
-  {nombre:"Gris",hex:"#9a9a9a",codigo:"GRI"}
 ];
 
 let cart = {};
@@ -464,6 +465,8 @@ window.tcEnd=(e,id)=>{const dx=e.changedTouches[0].clientX-(_touch[id]||0);if(Ma
 // ── COLOR DEL PEDIDO (independiente de la foto) ───────────────────
 window.selColorPedido = (pid, idx) => {
   const c = COLORES_PEDIDO[idx]; if (!c) return;
+  const labelEl = document.getElementById('color-label-'+pid);
+  if (labelEl) labelEl.textContent = '● ' + c.nombre;
   if (!selState[pid]) selState[pid] = {};
   selState[pid].colorPedido = c.nombre;
   selState[pid].colorCodigo = c.codigo;
@@ -475,6 +478,8 @@ window.selColorPedido = (pid, idx) => {
 };
 
 window.selColorCustom = (pid, val) => {
+  const labelEl = document.getElementById('color-label-'+pid);
+  if (labelEl) labelEl.textContent = val ? '● ' + val : 'Toca un color para seleccionar';
   if (!selState[pid]) selState[pid] = {};
   const v = val.trim();
   document.querySelectorAll(`#chips-${pid} .color-chip`).forEach(el=>el.classList.remove("selected"));
@@ -545,11 +550,11 @@ function renderCatalog() {
     const swatchesHtml = `
       <div class="colors-section">
         <span class="colors-label">Color que deseas</span>
-        <p class="colors-hint">La foto muestra el modelo. Puedes pedir el color que prefieras.</p>
+        <div class="color-selected-label" id="color-label-${p.id}">Toca un color para seleccionar</div>
         <div class="color-chips" id="chips-${p.id}">
-          ${COLORES_PEDIDO.map((c,i)=>`<button type="button" class="color-chip" onclick="selColorPedido('${p.id}',${i})"><span class="chip-dot" style="background:${c.hex}"></span>${c.nombre}</button>`).join("")}
+          ${COLORES_PEDIDO.map((c,i)=>`<button type="button" class="color-chip" title="${c.nombre}" onclick="selColorPedido('${p.id}',${i})"><span class="chip-dot" style="background:${c.hex}"></span></button>`).join("")}
         </div>
-        <input class="inp color-custom" id="color-custom-${p.id}" type="text" placeholder="¿Otro color? Escríbelo aquí (ej: Verde menta)" oninput="selColorCustom('${p.id}',this.value)"/>
+        <input class="inp color-custom" id="color-custom-${p.id}" type="text" placeholder="¿Otro color? Escríbelo aquí" oninput="selColorCustom('${p.id}',this.value)" style="font-size:.75rem;padding:.5rem .8rem"/>
       </div>`;
 
     const telaHtml = variantes.length ? `
