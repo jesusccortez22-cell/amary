@@ -41,9 +41,12 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .hero-wave{position:absolute;bottom:0;left:0;right:0;height:55px;overflow:hidden}
 .hero-wave svg{display:block;width:100%}
 
-.strip{background:var(--rose);padding:.7rem 2rem;display:flex;align-items:center;justify-content:center;gap:2.5rem;overflow:hidden}
-.strip-item{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);white-space:nowrap;font-weight:500}
-.strip-dot{width:4px;height:4px;background:var(--cream);border-radius:50%}
+.strip{background:var(--rose);padding:.7rem 0;display:flex;align-items:center;overflow:hidden;white-space:nowrap}
+.strip-track{display:flex;align-items:center;gap:2.5rem;animation:marquee 18s linear infinite;white-space:nowrap;flex-shrink:0;padding-right:2.5rem}
+.strip:hover .strip-track{animation-play-state:paused}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.strip-item{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);white-space:nowrap;font-weight:600}
+.strip-dot{width:4px;height:4px;background:var(--ink);border-radius:50%;opacity:.4;flex-shrink:0}
 
 .section{padding:3.5rem 1.5rem 4rem}
 .section-head{text-align:center;margin-bottom:3rem}
@@ -196,8 +199,7 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
   .hero-logo{width:90px;height:90px}
   .hero h1{font-size:clamp(1.5rem,5vw,2rem)}
   .grid{grid-template-columns:repeat(2,1fr)}
-  .strip{gap:1.5rem}
-  .strip-item:nth-child(5),.strip-dot:nth-child(4){display:none}
+  .strip-track{gap:1.8rem}
   .section{padding:2.5rem .9rem 3rem}
   .how-section{padding:2.5rem 1rem 3rem}
   .how-steps{grid-template-columns:1fr;gap:1rem}
@@ -242,11 +244,20 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
 </div>
 
 <div class="strip">
-  <div class="strip-item">✦ Precios en Euros</div>
-  <div class="strip-dot"></div>
-  <div class="strip-item">✦ Tasa BCV del día</div>
-  <div class="strip-dot"></div>
-  <div class="strip-item">✦ Envíos a todo el país</div>
+  <div class="strip-track">
+    <div class="strip-item">✦ Precios en Euros</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item">✦ Tasa BCV del día</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item">✦ Envíos a todo el país</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item">✦ Precios en Euros</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item">✦ Tasa BCV del día</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item">✦ Envíos a todo el país</div>
+    <div class="strip-dot"></div>
+  </div>
 </div>
 
 <div class="section" id="catalogo">
