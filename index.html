@@ -41,13 +41,9 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .hero-wave{position:absolute;bottom:0;left:0;right:0;height:55px;overflow:hidden}
 .hero-wave svg{display:block;width:100%}
 
-.strip{background:var(--rose);padding:.7rem 0;overflow:hidden}
-.strip-inner{overflow:hidden;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.strip-track{display:flex;width:max-content;animation:strip-marquee 24s linear infinite}
-.strip-inner:hover .strip-track{animation-play-state:paused}
-.strip-group{display:flex;align-items:center;gap:2.5rem;flex-shrink:0;padding:0 1.25rem}
+.strip{background:var(--rose);padding:.7rem 2rem;display:flex;align-items:center;justify-content:center;gap:2.5rem;overflow:hidden}
 .strip-item{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);white-space:nowrap;font-weight:500}
-.strip-dot{width:4px;height:4px;background:var(--cream);border-radius:50%;flex-shrink:0}
+.strip-dot{width:4px;height:4px;background:var(--cream);border-radius:50%}
 
 .section{padding:3.5rem 1.5rem 4rem}
 .section-head{text-align:center;margin-bottom:3rem}
@@ -92,17 +88,12 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .color-swatch:hover{transform:scale(1.15)}
 .color-swatch.active{border-color:var(--ink);transform:scale(1.1)}
 .color-swatch[title]:hover::after{content:attr(title);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:.58rem;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10}
-.colors-hint{font-size:.62rem;color:var(--muted);font-style:italic;margin-bottom:.55rem;line-height:1.45;font-weight:300}
-.color-palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:.45rem .35rem;margin-bottom:.5rem}
-.palette-item{display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;border:2px solid transparent;background:none;padding:.35rem .2rem;border-radius:10px;transition:border-color .2s,background .2s;font-family:'Jost',sans-serif}
-.palette-item:hover{background:var(--warm)}
-.palette-item.selected{border-color:var(--ink);background:var(--warm)}
-.palette-swatch{width:30px;height:30px;border-radius:50%;border:2px solid rgba(74,38,4,.15);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-.palette-name{font-size:.58rem;color:var(--ink);text-align:center;line-height:1.15;max-width:64px}
-.palette-code{font-size:.5rem;color:var(--rose2);letter-spacing:.1em;font-weight:600;text-transform:uppercase}
-.color-selected-line{font-size:.65rem;color:var(--muted);text-align:center;margin-bottom:.4rem;min-height:1.2em}
-.color-selected-line strong{color:var(--ink);font-weight:600}
-.color-custom{width:100%;padding:.5rem .75rem;font-size:.72rem}
+.colors-hint{font-size:.62rem;color:var(--muted);font-style:italic;margin-bottom:.5rem;line-height:1.45;font-weight:300}
+.color-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.45rem}
+.color-chip{border:1.5px solid var(--line);background:#fff;padding:.28rem .6rem;border-radius:20px;cursor:pointer;font-size:.64rem;color:var(--muted);display:inline-flex;align-items:center;gap:.35rem;transition:all .2s;font-family:'Jost',sans-serif}
+.color-chip .chip-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.1);flex-shrink:0}
+.color-chip.selected{border-color:#4a2604;background:var(--warm);color:var(--ink);font-weight:500}
+.color-custom{width:100%;padding:.5rem .75rem;font-size:.72rem;margin-top:.1rem}
 
 /* VARIANTES TELA */
 .variants-section{margin-bottom:.75rem}
@@ -200,17 +191,13 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
 .wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 20px rgba(37,211,102,.4);text-decoration:none;transition:transform .2s,box-shadow .2s}
 .wa-float:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(37,211,102,.55)}
 
-@keyframes strip-marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
-
 @media(max-width:520px){
   .hero{padding:4rem 1.5rem 5rem}
   .hero-logo{width:90px;height:90px}
   .hero h1{font-size:clamp(1.5rem,5vw,2rem)}
   .grid{grid-template-columns:repeat(2,1fr)}
-  .strip-group{gap:2rem;padding:0 1.5rem}
+  .strip{gap:1.5rem}
+  .strip-item:nth-child(5),.strip-dot:nth-child(4){display:none}
   .section{padding:2.5rem .9rem 3rem}
   .how-section{padding:2.5rem 1rem 3rem}
   .how-steps{grid-template-columns:1fr;gap:1rem}
@@ -255,24 +242,11 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
 </div>
 
 <div class="strip">
-  <div class="strip-inner">
-    <div class="strip-track">
-      <div class="strip-group">
-        <div class="strip-item">✦ Precios en Euros</div>
-        <div class="strip-dot"></div>
-        <div class="strip-item">✦ Tasa BCV del día</div>
-        <div class="strip-dot"></div>
-        <div class="strip-item">✦ Envíos a todo el país</div>
-      </div>
-      <div class="strip-group strip-repeat" aria-hidden="true">
-        <div class="strip-item">✦ Precios en Euros</div>
-        <div class="strip-dot"></div>
-        <div class="strip-item">✦ Tasa BCV del día</div>
-        <div class="strip-dot"></div>
-        <div class="strip-item">✦ Envíos a todo el país</div>
-      </div>
-    </div>
-  </div>
+  <div class="strip-item">✦ Precios en Euros</div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">✦ Tasa BCV del día</div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">✦ Envíos a todo el país</div>
 </div>
 
 <div class="section" id="catalogo">
@@ -484,9 +458,7 @@ window.selColorPedido = (pid, idx) => {
   selState[pid].colorCodigo = c.codigo;
   const inp = document.getElementById("color-custom-"+pid);
   if (inp) inp.value = "";
-  document.querySelectorAll(`#palette-${pid} .palette-item`).forEach((el,i)=>el.classList.toggle("selected",i===idx));
-  const line = document.getElementById("color-sel-"+pid);
-  if (line) line.innerHTML = `Seleccionado: <strong>${c.nombre}</strong> · código <strong>${c.codigo}</strong>`;
+  document.querySelectorAll(`#chips-${pid} .color-chip`).forEach((el,i)=>el.classList.toggle("selected",i===idx));
   updateRef(pid);
   checkReady(pid);
 };
@@ -494,8 +466,7 @@ window.selColorPedido = (pid, idx) => {
 window.selColorCustom = (pid, val) => {
   if (!selState[pid]) selState[pid] = {};
   const v = val.trim();
-  document.querySelectorAll(`#palette-${pid} .palette-item`).forEach(el=>el.classList.remove("selected"));
-  const line = document.getElementById("color-sel-"+pid);
+  document.querySelectorAll(`#chips-${pid} .color-chip`).forEach(el=>el.classList.remove("selected"));
   if (!v) {
     delete selState[pid].colorPedido;
     delete selState[pid].colorCodigo;
@@ -696,3 +667,4 @@ await loadTasa();
 await loadProducts();
 </script>
 </body>
+</html>
