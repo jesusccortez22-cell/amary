@@ -217,30 +217,12 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
   .hero h1{font-size:clamp(1.5rem,5vw,2rem)}
   .grid{grid-template-columns:repeat(2,1fr)}
   .strip-track{gap:1.8rem}
-  .section{padding:2.5rem .5rem 3rem}
+  .section{padding:2.5rem .9rem 3rem}
   .how-section{padding:2.5rem 1rem 3rem}
   .how-steps{grid-template-columns:1fr;gap:1rem}
   .how-title{font-size:1.65rem}
   .car-arrow{opacity:1}
   .wa-float{bottom:1rem;right:1rem;width:48px;height:48px;font-size:1.35rem}
-  .card-body{padding:.65rem .7rem .9rem}
-  .card-name{font-size:.88rem}
-  .card-desc{font-size:.65rem;margin-bottom:.6rem}
-  .card-cat{font-size:.52rem}
-  .tela-btn{padding:.25rem .5rem;font-size:.6rem}
-  .tela-btn .t-price{font-size:.55rem}
-  .tela-btn .t-bs{font-size:.52rem}
-  .talla-btn{width:26px;height:26px;font-size:.62rem}
-  .price-eur{font-size:.9rem}
-  .price-bs{font-size:.58rem}
-  .add-btn{padding:.32rem .7rem;font-size:.6rem}
-  .color-range{height:5px}
-  .color-preview-circle{width:16px;height:16px}
-  .color-preview-name{font-size:.6rem}
-  .color-preview-code{font-size:.52rem}
-  .ref-badge{font-size:.48rem;padding:2px 5px}
-  .card-badge{font-size:.5rem;padding:2px 7px}
-  .variants-section{margin-bottom:.5rem}
 }
 </style>
 </head>
@@ -270,7 +252,7 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
   <p class="hero-tag">Online Shopping · Colección 2026</p>
   <h1>Hecho por nosotras<br><em>para nosotras</em></h1>
   <p class="hero-sub">Únete al club!</p>
-  <a class="hero-cta" href="#catalogo">Ver colección →</a>
+  <button class="hero-cta" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth',block:'start'})">Ver colección →</button>
   <div class="hero-wave">
     <svg viewBox="0 0 1440 55" fill="none" preserveAspectRatio="none">
       <path d="M0 0C360 55 1080 55 1440 0V55H0V0Z" fill="#fffdf5"/>
