@@ -86,18 +86,33 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 /* COLORES */
 .colors-section{margin-bottom:.7rem}
 .colors-label{font-size:.57rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;display:block}
+/* SLIDER */
+.color-slider-wrap{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.color-preview-circle{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(74,38,4,.3);flex-shrink:0;transition:background .12s;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.color-info{display:flex;flex-direction:column;gap:1px;min-width:70px}
+.color-preview-name{font-size:.68rem;font-weight:600;color:#4a2604;letter-spacing:.04em;line-height:1.2}
+.color-preview-code{font-size:.57rem;color:var(--muted);letter-spacing:.1em}
+.color-range{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:20px;outline:none;cursor:pointer;border:none;
+  background:linear-gradient(to right,
+    #ff0000 0%,#ff4000 4%,#ff8000 8%,#ffbf00 12%,
+    #ffff00 16%,#80ff00 20%,#00ff00 25%,#00ff80 29%,
+    #00ffff 33%,#00bfff 37%,#0080ff 41%,#0040ff 45%,
+    #0000ff 50%,#4000ff 54%,#8000ff 58%,#bf00ff 62%,
+    #ff00ff 66%,#ff00bf 70%,#ff0080 74%,#ff0040 78%,
+    #ff0000 82%,#ffffff 87%,#000000 92%,
+    #f5e6c8 96%,#6b4423 100%)}
+.color-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #4a2604;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.color-range::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #4a2604;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.color-custom-hint{font-size:.62rem;color:var(--muted);font-style:italic;margin-bottom:.3rem}
 .color-swatches{display:flex;gap:.35rem;flex-wrap:wrap}
 .color-swatch{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;position:relative}
 .color-swatch:hover{transform:scale(1.15)}
 .color-swatch.active{border-color:var(--ink);transform:scale(1.1)}
 .color-swatch[title]:hover::after{content:attr(title);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:.58rem;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10}
 .colors-hint{display:none}
-.color-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.5rem}
-.color-chip{width:24px;height:24px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;padding:0;background:none;transition:transform .15s,border-color .2s;position:relative;flex-shrink:0}
-.color-chip .chip-dot{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.12);display:block;transition:transform .15s}
-.color-chip:hover{transform:scale(1.18)}
-.color-chip.selected{border-color:#4a2604;transform:scale(1.1)}
-.color-selected-label{font-size:.68rem;color:#4a2604;font-weight:600;margin-bottom:.4rem;min-height:.9rem;letter-spacing:.04em}
+.color-chips{display:none}
+.color-chip{display:none}
+.color-selected-label{display:none}
 .color-custom{width:100%;padding:.5rem .75rem;font-size:.72rem;margin-top:.1rem}
 
 /* VARIANTES TELA */
@@ -364,20 +379,35 @@ const _touch   = {};
 const selState = {}; // pid -> {colorPedido, colorCodigo, tela, precio, talla}
 
 // Colores que la clienta puede pedir (la foto del modelo es solo referencia)
-const COLORES_PEDIDO = [
-  {nombre:"Negro",hex:"#1a1a1a",codigo:"NEG"},
-  {nombre:"Blanco",hex:"#f5f5f0",codigo:"BLA"},
-  {nombre:"Crema",hex:"#f5e6c8",codigo:"CRE"},
-  {nombre:"Beige",hex:"#d4b896",codigo:"BEI"},
-  {nombre:"Rosa",hex:"#e8a0b4",codigo:"ROS"},
-  {nombre:"Rojo",hex:"#b83248",codigo:"ROJ"},
-  {nombre:"Burdeos",hex:"#6b2737",codigo:"BUR"},
-  {nombre:"Azul",hex:"#3d5a80",codigo:"AZU"},
-  {nombre:"Celeste",hex:"#87ceeb",codigo:"CEL"},
-  {nombre:"Verde",hex:"#5a7a5a",codigo:"VER"},
-  {nombre:"Mostaza",hex:"#c9a227",codigo:"MOS"},
-  {nombre:"Café",hex:"#6b4423",codigo:"CAF"},
+// Mapa de colores para el slider (valor 0-100 → color+nombre)
+const SLIDER_COLORS = [
+  {min:0,  max:4,  nombre:"Rojo",      hex:"#e63030", codigo:"ROJ"},
+  {min:4,  max:9,  nombre:"Naranja",   hex:"#e87020", codigo:"NAR"},
+  {min:9,  max:14, nombre:"Amarillo",  hex:"#f5c800", codigo:"AMA"},
+  {min:14, max:19, nombre:"Lima",      hex:"#8fd400", codigo:"LIM"},
+  {min:19, max:24, nombre:"Verde",     hex:"#22c45e", codigo:"VER"},
+  {min:24, max:29, nombre:"Menta",     hex:"#00e0a0", codigo:"MEN"},
+  {min:29, max:34, nombre:"Celeste",   hex:"#00cfff", codigo:"CEL"},
+  {min:34, max:39, nombre:"Azul Cielo",hex:"#0096e0", codigo:"ACI"},
+  {min:39, max:44, nombre:"Azul",      hex:"#2255cc", codigo:"AZU"},
+  {min:44, max:49, nombre:"Azul Marino",hex:"#1a2a80",codigo:"AZM"},
+  {min:49, max:54, nombre:"Morado",    hex:"#6633cc", codigo:"MOR"},
+  {min:54, max:59, nombre:"Lila",      hex:"#aa44dd", codigo:"LIL"},
+  {min:59, max:64, nombre:"Fucsia",    hex:"#dd00cc", codigo:"FUC"},
+  {min:64, max:69, nombre:"Rosa Fucsia",hex:"#e8409a",codigo:"ROF"},
+  {min:69, max:74, nombre:"Rosa",      hex:"#e8a0b4", codigo:"ROS"},
+  {min:74, max:79, nombre:"Rojo Oscuro",hex:"#b83248",codigo:"ROS"},
+  {min:79, max:83, nombre:"Burdeos",   hex:"#6b2737", codigo:"BUR"},
+  {min:83, max:87, nombre:"Blanco",    hex:"#f5f5f0", codigo:"BLA"},
+  {min:87, max:92, nombre:"Negro",     hex:"#1a1a1a", codigo:"NEG"},
+  {min:92, max:96, nombre:"Crema",     hex:"#f5e6c8", codigo:"CRE"},
+  {min:96, max:100,nombre:"Café",      hex:"#6b4423", codigo:"CAF"},
 ];
+
+function getColorFromSlider(val) {
+  const v = parseFloat(val);
+  return SLIDER_COLORS.find(c => v >= c.min && v < c.max) || SLIDER_COLORS[0];
+}
 
 let cart = {};
 
@@ -462,36 +492,42 @@ function carApply(id){
 window.tcStart=(e,id)=>{_touch[id]=e.touches[0].clientX;};
 window.tcEnd=(e,id)=>{const dx=e.changedTouches[0].clientX-(_touch[id]||0);if(Math.abs(dx)>40)window.carMove(id,dx<0?1:-1,null);};
 
-// ── COLOR DEL PEDIDO (independiente de la foto) ───────────────────
-window.selColorPedido = (pid, idx) => {
-  const c = COLORES_PEDIDO[idx]; if (!c) return;
-  const labelEl = document.getElementById('color-label-'+pid);
-  if (labelEl) labelEl.textContent = '● ' + c.nombre;
+// ── SLIDER DE COLOR ───────────────────────────────────────────────
+window.onSliderColor = (pid, val) => {
+  const c = getColorFromSlider(val);
+  const circle = document.getElementById('slider-circle-'+pid);
+  const name   = document.getElementById('slider-name-'+pid);
+  const code   = document.getElementById('slider-code-'+pid);
+  if (circle) circle.style.background = c.hex;
+  if (name)   name.textContent = c.nombre;
+  if (code)   code.textContent = c.codigo;
   if (!selState[pid]) selState[pid] = {};
   selState[pid].colorPedido = c.nombre;
   selState[pid].colorCodigo = c.codigo;
-  const inp = document.getElementById("color-custom-"+pid);
-  if (inp) inp.value = "";
-  document.querySelectorAll(`#chips-${pid} .color-chip`).forEach((el,i)=>el.classList.toggle("selected",i===idx));
+  const inp = document.getElementById('color-custom-'+pid);
+  if (inp) inp.value = '';
   updateRef(pid);
   checkReady(pid);
 };
 
 window.selColorCustom = (pid, val) => {
-  const labelEl = document.getElementById('color-label-'+pid);
-  if (labelEl) labelEl.textContent = val ? '● ' + val : 'Toca un color para seleccionar';
   if (!selState[pid]) selState[pid] = {};
   const v = val.trim();
-  document.querySelectorAll(`#chips-${pid} .color-chip`).forEach(el=>el.classList.remove("selected"));
+  const name = document.getElementById('slider-name-'+pid);
+  const code = document.getElementById('slider-code-'+pid);
   if (!v) {
     delete selState[pid].colorPedido;
     delete selState[pid].colorCodigo;
+    if (name) name.textContent = 'Desliza para elegir';
+    if (code) code.textContent = '';
     updateRef(pid);
     checkReady(pid);
     return;
   }
   selState[pid].colorPedido = v;
-  selState[pid].colorCodigo = v.toUpperCase().replace(/[^A-Z0-9]/g,"").substring(0,3) || "OTR";
+  selState[pid].colorCodigo = v.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,3) || 'OTR';
+  if (name) name.textContent = v;
+  if (code) code.textContent = selState[pid].colorCodigo;
   updateRef(pid);
   checkReady(pid);
 };
@@ -550,11 +586,19 @@ function renderCatalog() {
     const swatchesHtml = `
       <div class="colors-section">
         <span class="colors-label">Color que deseas</span>
-        <div class="color-selected-label" id="color-label-${p.id}">Toca un color para seleccionar</div>
-        <div class="color-chips" id="chips-${p.id}">
-          ${COLORES_PEDIDO.map((c,i)=>`<button type="button" class="color-chip" title="${c.nombre}" onclick="selColorPedido('${p.id}',${i})"><span class="chip-dot" style="background:${c.hex}"></span></button>`).join("")}
+        <div class="color-slider-wrap">
+          <div class="color-preview-circle" id="slider-circle-${p.id}" style="background:#e8a0b4"></div>
+          <input type="range" class="color-range" min="0" max="99" value="64"
+            oninput="onSliderColor('${p.id}',this.value)"
+            ontouchstart="event.stopPropagation()"
+            ontouchmove="event.stopPropagation()"/>
+          <div class="color-info">
+            <span class="color-preview-name" id="slider-name-${p.id}">Color</span>
+            <span class="color-preview-code" id="slider-code-${p.id}"></span>
+          </div>
         </div>
-        <input class="inp color-custom" id="color-custom-${p.id}" type="text" placeholder="¿Otro color? Escríbelo aquí" oninput="selColorCustom('${p.id}',this.value)" style="font-size:.75rem;padding:.5rem .8rem"/>
+        <div class="color-custom-hint">¿Color específico? Escríbelo:</div>
+        <input class="inp color-custom" id="color-custom-${p.id}" type="text" placeholder="Ej: Verde menta, Azul rey..." oninput="selColorCustom('${p.id}',this.value)" style="font-size:.75rem;padding:.5rem .8rem"/>
       </div>`;
 
     const telaHtml = variantes.length ? `
