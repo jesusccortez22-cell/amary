@@ -87,12 +87,12 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .colors-section{margin-bottom:.7rem}
 .colors-label{font-size:.57rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;display:block}
 /* SLIDER */
-.color-slider-wrap{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem}
+.color-slider-wrap{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem}
 .color-preview-row{display:flex;align-items:center;gap:.65rem}
-.color-preview-circle{width:32px;height:32px;border-radius:50%;border:2.5px solid #4a2604;flex-shrink:0;transition:background .15s;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-.color-preview-name{font-size:.75rem;font-weight:600;color:#4a2604;letter-spacing:.04em;min-width:80px}
-.color-preview-code{font-size:.62rem;color:var(--muted);letter-spacing:.08em}
-.color-range{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:20px;outline:none;cursor:pointer;border:1px solid rgba(0,0,0,.08);
+.color-preview-circle{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(74,38,4,.25);flex-shrink:0;transition:background .12s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.color-preview-name{font-size:.62rem;font-weight:600;color:#4a2604;letter-spacing:.03em;line-height:1.2}
+.color-preview-code{font-size:.52rem;color:var(--muted);letter-spacing:.08em}
+.color-range{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:20px;outline:none;cursor:pointer;border:none;
   background:linear-gradient(to right,
     #ff0000 0%,#ff4000 4%,#ff8000 8%,#ffbf00 12%,
     #ffff00 16%,#80ff00 20%,#00ff00 25%,#00ff80 29%,
@@ -101,9 +101,10 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
     #ff00ff 66%,#ff00bf 70%,#ff0080 74%,#ff0040 78%,
     #ff0000 82%,#ffffff 87%,#000000 92%,
     #f5e6c8 96%,#6b4423 100%)}
-.color-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #4a2604;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-.color-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #4a2604;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-.color-custom-hint{font-size:.62rem;color:var(--muted);font-style:italic;margin-bottom:.3rem}
+.color-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #4a2604;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.color-range::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #4a2604;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.color-info{display:flex;flex-direction:column;gap:0;min-width:60px}
+.color-custom-hint{font-size:.6rem;color:var(--muted);font-style:italic;margin-bottom:.25rem}
 .color-swatches{display:flex;gap:.35rem;flex-wrap:wrap}
 .color-swatch{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;position:relative}
 .color-swatch:hover{transform:scale(1.15)}
@@ -236,11 +237,6 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
   .price-eur{font-size:.88rem}
   .price-bs{font-size:.57rem}
   .add-btn{padding:.3rem .65rem;font-size:.58rem}
-  .color-range{height:4px}
-  .color-preview-circle{width:15px;height:15px}
-  .color-preview-name{font-size:.58rem}
-  .color-preview-code{font-size:.5rem}
-  .color-info{min-width:55px}
   .ref-badge{font-size:.46rem;padding:2px 5px;top:8px;right:8px}
   .card-badge{font-size:.48rem;padding:2px 6px}
   .variants-section{margin-bottom:.45rem}
@@ -610,17 +606,15 @@ function renderCatalog() {
       <div class="colors-section">
         <span class="colors-label">Color que deseas</span>
         <div class="color-slider-wrap">
-          <div class="color-preview-row">
-            <div class="color-preview-circle" id="slider-circle-${p.id}" style="background:#e8a0b4"></div>
-            <div>
-              <div class="color-preview-name" id="slider-name-${p.id}">Desliza para elegir</div>
-              <div class="color-preview-code" id="slider-code-${p.id}"></div>
-            </div>
-          </div>
+          <div class="color-preview-circle" id="slider-circle-${p.id}" style="background:#e8a0b4"></div>
           <input type="range" class="color-range" min="0" max="99" value="64"
             oninput="onSliderColor('${p.id}',this.value)"
             ontouchstart="event.stopPropagation()"
             ontouchmove="event.stopPropagation()"/>
+          <div class="color-info">
+            <span class="color-preview-name" id="slider-name-${p.id}">Color</span>
+            <span class="color-preview-code" id="slider-code-${p.id}"></span>
+          </div>
         </div>
         <div class="color-custom-hint">¿Color específico? Escríbelo:</div>
         <input class="inp color-custom" id="color-custom-${p.id}" type="text" placeholder="Ej: Verde menta, Azul rey..." oninput="selColorCustom('${p.id}',this.value)" style="font-size:.75rem;padding:.5rem .8rem"/>
