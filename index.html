@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#4a2604;--choc:#4a2604;--choc2:#3a1e03;--cream:#fbeca7;--rose:#dc9ea9;--rose2:#c4849a;--paper:#fffdf5;--warm:#fdf5d8;--line:#f0e5c8;--muted:#9B7050}
+:root{--ink:#985f7b;--choc:#4a2604;--choc2:#3a1e03;--cream:#fbeca7;--rose:#dc9ea9;--rose2:#c4849a;--paper:#fffdf5;--warm:#fdf5d8;--line:#f0e5c8;--muted:#9B7050}
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
 body.cart-open{overflow:hidden}
@@ -35,7 +35,7 @@ nav{background:#3a1e03;height:66px;padding:0 1.75rem;display:flex;align-items:ce
 .hero-tag{font-size:.63rem;letter-spacing:.38em;color:var(--rose);text-transform:uppercase;margin-bottom:1.1rem}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.8vw,2.8rem);color:var(--cream);font-weight:400;line-height:1.2;margin-bottom:.55rem}
 .hero h1 em{font-style:italic;color:var(--rose)}
-.hero-sub{font-family:'Playfair Display',serif;font-size:1.1rem;color:rgba(254,250,196,.5);font-style:italic;margin-bottom:2.5rem}
+.hero-sub{font-family:'Playfair Display',serif;font-size:1.1rem;color:rgba(240, 168, 184, 0.322);font-style:italic;margin-bottom:2.5rem}
 .hero-cta{display:inline-flex;align-items:center;gap:.65rem;border:1px solid rgba(240,168,184,.5);color:var(--rose);background:none;padding:.7rem 2rem;border-radius:30px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.73rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;text-decoration:none}
 .hero-cta:hover{background:var(--rose);color:var(--ink)}
 .hero-wave{display:none}
@@ -251,7 +251,7 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
     <img class="nav-logo" src="logo.jpg" alt="amary"/>
     <div class="nav-words">
       <span class="nav-name">amary</span>
-      <span class="nav-sub">Moda Femenina</span>
+      <span class="nav-sub">by maje</span>
     </div>
   </a>
   <button class="cart-btn" onclick="toggleCart()" aria-label="Abrir carrito de compras">
@@ -266,10 +266,6 @@ footer{background:#4a2604;padding:2.8rem 2rem 2rem;text-align:center}
 </div>
 
 <div class="hero" id="inicio">
-  <img class="hero-logo" src="logo.jpg" alt="amary"/>
-  <p class="hero-tag">Online Shopping · Colección 2026</p>
-  <h1>Hecho por nosotras<br><em>para nosotras</em></h1>
-  <p class="hero-sub">Únete al club!</p>
   <a class="hero-cta" href="#catalogo">Ver colección →</a>
   <div class="hero-wave">
     <svg viewBox="0 0 1440 55" fill="none" preserveAspectRatio="none">
